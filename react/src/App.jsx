@@ -5,6 +5,7 @@ import WelcomeMessage from './WelcomeMessage';
 import DuckButton from './DuckButton';
 import PostForm from './PostForm';
 import Post from './Post';
+import ActionButton from './ActionButton';
 
 function App() {
   const [posts, setPosts] = useState([
@@ -12,6 +13,8 @@ function App() {
     { id: 2, author: 'Donald', content: 'Quack attack at 3pm. Who’s in?' },
     { id: 3, author: 'Scrooge', content: 'Investing in breadcrumbs.' }
   ]);
+
+  const [showForm, setShowForm] = useState(true);
 
   function addPost(newPost) {
     setPosts([{ id: Date.now(), ...newPost }, ...posts]);
@@ -24,7 +27,11 @@ function App() {
       <DuckButton label="Message" />
       <DuckButton label="Waddle Away" />
       <hr />
-      <PostForm onSubmit={addPost} />
+      
+      <ActionButton onClick={() => setShowForm(!showForm)}>
+        {showForm ? 'Hide Post Form' : 'Show Post Form'}
+      </ActionButton>
+      {showForm && <PostForm onSubmit={addPost} />}
       {posts.map(post => (
         <Post key={post.id} author={post.author} content={post.content} />
       ))}
